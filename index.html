@@ -3,12 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hangman!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jurassic Hangman!</title>
     <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <!-- Added a link to Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link href="https://fonts.googleapis.com/css?family=Eater|Love+Ya+Like+A+Sister|Slackey" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!-- 2. Choose a theme for your game! In the demo, we picked an 80s theme: 80s questions, 80s sound and an 80s aesthetic. You can choose any subject for your theme, though, so be creative!
     3. Use key events to listen for the letters that your players will type.
     4. Display the following on the page:
@@ -19,87 +21,104 @@
     * Number of Guesses Remaining: (# of guesses remaining for the user).
     * Letters Already Guessed: (Letters the user has guessed, displayed like `L Z Y H`).
     5. After the user wins/loses the game should automatically choose another word and make the user play it. -->
-
 </head>
 
 <body>
-    <div class="jumbotron">Hangman: The Jurassic Edition</div>
-    <div ></div>
-        <h1 class="text-center"></h1>
-        <h2 class="text-center">Press Any Key to Start Your Prehistoric Adventure!</h2>
-        <h3 class="text-center">Wins:</h3>
-        <h3 class="text-center">Current Word:</h3>
-  <div class="container">
-
-    <div class="row">
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Computer Pick</h3>
-        </div>
-        <div class="panel-body text-center">
-          <h1 id="computerPick">???</h1>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">You Pick</h3>
-        </div>
-        <div class="panel-body text-center"></div>
-        </div>
-        
-
+    <div class="jumbotron">
+        <h1 class="text-center">Hangman: Jurassic Edition</h1>
+        <br>
+        <br>
+        <h2 class="text-center" id="subhead">Press Any Key to Start Your Prehistoric Adventure!</h2></div>
+    <div></div>
     
-    <script type="text/javascript">
-    // Headline element with title 
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Wins:</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h1 id="win-counter"></h1>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Current Word:</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h1 id="current-word"></h1></div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Number of Guesses Remaining:</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h1 id="guess-counter"></h1>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Letters Already Guessed:</h3>
+                </div>
+                <div class="panel-body text-center">
+                    <h1 id="letters-guessed"></h1>
+                </div>
+            </div>
+            </div>
+            <script type="text/javascript">
 
-    // create an array of (uppercase) words for computer to select from; they match the theme  
+            var rawrFull = new Audio('assets/Tommy.m4r');
+            // rawrFull.play()
+            var rawrClip = new Audio('assets/RawrClip.m4r');
+            // rawrClip.play()    
 
-    // create counter userGuesses = 10 to track number of user guesses
+            // create an array of (uppercase) words for computer to select from; they match the theme  
+            var wordBank = ["DINOSAUR", "RAPTOR", "CLAWS", "FOSSIL", "EXTINCT", "JURASSIC", "VELOCIRAPTOR","TYRANNOSAURUS"]
 
-    // create counter to track user wins
+            // create counter userGuesses = 10 to track number of user guesses
 
-    // create array to hold user key guesses from onkeyup
+            // create counter to track user wins
 
-    // create var guessNumber = 10 (to subtract wrong guesses from)
+            // create array to hold user key guesses from onkeyup
 
-    // if user has not won after 10 (or whatever) onkeyup events, user runs out of guesses and game ends
+            // create var guessNumber = 10 (to subtract wrong guesses from)
 
-    // when game begins, computer selects item from the array
+            // if var guessNumber = 0, user runs out of guesses and game ends
 
-    // create 2 variables: 
-    // var wordSelected to contain the word selected by computer from the array
+            // when game begins, computer selects item from the array
 
-    //var underScores containing underscores for each character in var wordSelected. 
-    
-    // var underScores is the variable that will be changed if the onkeyup character is in var wordSelected
+            // create 2 variables: 
+            // var wordSelected to contain the word selected by computer from the array
 
-    // select random item from word bank array and set as value of var wordSelected 
+            //var underScores containing underscores for each character in var wordSelected. 
 
-    // to set value of var underScores, populate it w/number of underscores matching number of characters in var wordSelected
+            // var underScores is the variable that will be changed if the onkeyup character is in var wordSelected
 
-    // write var underScores to the html
+            // select random item from word bank array and set as value of var wordSelected 
 
-    // onkeyup function to caputure the key code/character selected by the user
+            // to set value of var underScores, populate it w/number of underscores matching number of characters in var wordSelected
 
-    // cast character pressed to uppercase
+            // write var underScores to the html
 
-    // computer logs key up event and compares user guess to previously selected keys
+            // onkeyup function to caputure the key code/character selected by the user
 
-    // if key has been previously selected, inform user that you've picked this letter before, but do not count this from guessNumber
+            // cast character pressed to uppercase
 
-    // 
+            // computer logs key up event and compares user guess to previously selected keys
 
-    // if the onkeyup character has not yet been selected by user, loop through characters in var wordSelected to find matches. 
+            // if key has been previously selected, inform user that you've picked this letter before, but do not count this from guessNumber
 
-    // if character matches, replace correct underscore position with the letter from onkeyup
+            // 
 
-    // if character does not match, letter is added to "letters already guessed" and number of guesses remaining is reduced by 1
+            // if the onkeyup character has not yet been selected by user, loop through characters in var wordSelected to find matches. 
 
-    // if userGuesses = 0,  game is reset
-    </script>
-    -->
+            // if character matches, replace correct underscore position with the letter from onkeyup
+
+            // if character does not match, letter is added to "letters already guessed" and number of guesses remaining is reduced by 1
+
+            // if userGuesses = 0,  game is reset
+            </script>
+            
 </body>
 
 </html>

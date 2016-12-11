@@ -1,0 +1,31 @@
+body {
+	background: url("../images/dinos.jpg");
+	font-family: 'Eater', cursive;
+	letter-spacing: 1.5px;
+}
+
+.jumbotron {
+   background: rgba(200, 54, 54, 0.5); 
+   color: white;
+}
+
+#subhead {
+	font-family: 'Slackey', cursive;
+	color: white;
+	letter-spacing: 1.5px;
+}
+
+.panel-title {
+	letter-spacing: 1.5px;
+}
+
+.panel-heading {
+	background: rgba(123, 140, 91, 0.5)!important;
+}
+
+.panel-default {
+	background: rgba(237, 195, 90, 0.5);
+}
+
+
+/*font-family: 'Love Ya Like A Sister', cursive;*/
