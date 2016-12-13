@@ -1,13 +1,13 @@
 $(document).ready(function() {
     var rawrFull = new Audio('assets/Tommy.m4r');
     var rawrClip = new Audio('assets/RawrClip.m4r');
-    
+
 
     // create an array of (uppercase) words for computer to select from; they match the theme  
     var wordBank = ["DINOSAUR", "RAPTOR", "CLAWS", "FOSSIL", "EXTINCT", "JURASSIC", "VELOCIRAPTOR", "TYRANNOSAURUS"]
     console.log(wordBank)
         // create function countDown to track number of user guesses; starts with a value of 10; each time countDown() is called, 1 is subtracted from the counter.
-    // var letter;    
+        // var letter;    
     var guessCounter;
     // var countDown; 
     var userGuesses;
@@ -15,7 +15,7 @@ $(document).ready(function() {
     var computerPick;
     var n;
     var underScores;
-     
+
     // call function to reset the game
     function reset() {
         guessCounter = 10;
@@ -27,7 +27,7 @@ $(document).ready(function() {
     }
 
     function youWin() {
-        
+
         rawrFull.play();
         alert("You won!!! The word was " + computerPick + "!");
         numWins = numWins += 1;
@@ -112,23 +112,13 @@ $(document).ready(function() {
                 $("#letters-guessed").empty();
                 $("#current-word").text(underScores);
             } else {
-            $("#guess-counter").text(guessCounter);
-            userGuesses.push(letter);
-            $("#letters-guessed").text(userGuesses);
+                $("#guess-counter").text(guessCounter);
+                userGuesses.push(letter);
+                $("#letters-guessed").text(userGuesses);
             }
-
-
-
-            // } else if (true) {
-
-            // } else if (computerPick.includes(letter) === true) {
-
-            //     rawrClip.play();
-
         } else {
             rawrClip.play()
         };
-        // get index i of var letter in computerPick
 
     };
 
