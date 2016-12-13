@@ -4,6 +4,11 @@ body {
 	letter-spacing: 1.5px;
 }
 
+h1 {
+	font-size: 30pt;
+	font-weight: bold;
+}
+
 .jumbotron {
    background: rgba(200, 54, 54, 0.5); 
    color: white;

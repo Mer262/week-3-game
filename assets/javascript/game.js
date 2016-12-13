@@ -1,73 +1,65 @@
 $(document).ready(function() {
     var rawrFull = new Audio('assets/Tommy.m4r');
-    // rawrFull.play()
     var rawrClip = new Audio('assets/RawrClip.m4r');
-    // rawrClip.play()    
+    
 
     // create an array of (uppercase) words for computer to select from; they match the theme  
     var wordBank = ["DINOSAUR", "RAPTOR", "CLAWS", "FOSSIL", "EXTINCT", "JURASSIC", "VELOCIRAPTOR", "TYRANNOSAURUS"]
     console.log(wordBank)
         // create function countDown to track number of user guesses; starts with a value of 10; each time countDown() is called, 1 is subtracted from the counter.
+    // var letter;    
+    var guessCounter;
+    // var countDown; 
+    var userGuesses;
+    var numWins;
+    var computerPick;
+    var n;
+    var underScores;
+     
+    // call function to reset the game
+    function reset() {
+        guessCounter = 10;
+        userGuesses = []
+        computerPick = wordBank[Math.floor(Math.random() * wordBank.length)];
+        n = computerPick.length;
+        underScores = ("_").repeat(n);
+        console.log("n = " + n)
+    }
 
-    var countDown = (function() {
-        var counter = 10;
-        return function() {
-            return counter -= 1;
-        }
-    })();
+    function youWin() {
+        
+        rawrFull.play();
+        alert("You won!!! The word was " + computerPick + "!");
+        numWins = numWins += 1;
+        reset();
+    }
 
-    var guessCounter = 10
-        // console.log(countDown())
-        // write the countDown value into the Guesses Remaining panel
+    String.prototype.replaceAt = function(index, character) {
+        return this.substr(0, index) + character + this.substr(index + character.length);
+    }
+
+    reset();
+
     $("#guess-counter").text(guessCounter)
-        // $("#guess-counter").text(countDown())
+
 
     // create counter to track user wins
-
     var numWins = 0
     $("#win-counter").text(numWins)
-        // to increment number of user wins
-
-
-
-    // create array to hold user key guesses from onkeyup
-
-    var userGuesses = []
-    console.log("User guesses so far: " + userGuesses)
-        //function to push user onkeyup characters to array
-        // userGuesses.push()
-
-
 
     // if var guessNumber = 0, user runs out of guesses and game ends
 
     // when game begins, computer selects item from the array
     // create 2 variables: 
     // var computerPick to contain the word selected by computer from the array
-    // select random item from word bank array and set as value of var computerPick  
-    var computerPick = wordBank[Math.floor(Math.random() * wordBank.length)];
-    console.log(computerPick)
+    // select random item from word bank array and set as value of var computerPick
+
 
     //var underScores containing underscores for each character in var computerPick. 
     // to set value of var underScores, populate it w/number of underscores matching number of characters in var computerPick
 
-    var n = computerPick.length;
-    console.log(n)
-    var underScores = ("_").repeat(n)
-    console.log(underScores)
+
     $("#current-word").text(underScores)
-
-    // call function to reset the game
-    function reset() {
-
-    }
-
-    // var underScores is the variable that will be changed if the onkeyup character is in var computerPick
-    // write var underScores to the html
-
-    String.prototype.replaceAt = function(index, character) {
-        return this.substr(0, index) + character + this.substr(index + character.length);
-    }
 
     // onkeyup function to caputure the key code/character selected by the user
     document.onkeyup = function(event) {
@@ -78,46 +70,67 @@ $(document).ready(function() {
 
         // computer logs key up event and compares user guess to previously selected keys
         // if key has been previously selected, inform user that you've picked this letter before, but do not count this from guessNumber
+        if (underScores.includes("_") === false) {
+            $("#current-word").text(computerPick);
+            youWin();
+            $("#win-counter").text(numWins);
+            $("#guess-counter").text(guessCounter);
+            $("#letters-guessed").empty();
+            $("#current-word").text(underScores);
 
-        if (computerPick.includes(letter) === true) {
-            // var indices = [];
+
+
+        } else if (computerPick.includes(letter) === true) {
             for (var i = 0; i < computerPick.length; i++) {
                 if (computerPick[i] === letter) {
                     underScores = underScores.replaceAt(i, letter);
-                }        
+                }
                 $("#current-word").text(underScores);
-                console.log("updated blanks: " + underScores);
+                if (underScores.includes("_") === false) {
+                    $("#current-word").text(computerPick);
+                    youWin();
+                    $("#win-counter").text(numWins);
+                    $("#guess-counter").text(guessCounter);
+                    $("#letters-guessed").empty();
+                    $("#current-word").text(underScores)
+                }
             };
 
-        } else if (underScores.includes("_") === false) {
-            alert("You won!!!");
-            numWins = parseInt(numWins + 1);
-            $("#win-counter").text(numWins);
-            // reset()
+
 
         } else if (userGuesses.includes(letter) === true) {
             alert("You've already guessed that!");
-            rawrClip.play();
 
         } else if (computerPick.includes(letter) === false) {
-            $("#guess-counter").text(countDown());
+            guessCounter = guessCounter -= 1;
+            if (guessCounter < 1) {
+                rawrClip.play();
+                alert("You got eaten by a T-Rex! The word was " + computerPick + "!");
+                reset();
+                $("#win-counter").text(numWins);
+                $("#guess-counter").text(guessCounter);
+                $("#letters-guessed").empty();
+                $("#current-word").text(underScores);
+            } else {
+            $("#guess-counter").text(guessCounter);
             userGuesses.push(letter);
             $("#letters-guessed").text(userGuesses);
-            rawrClip.play();
+            }
 
 
-        // } else if (true) {
 
-        // } else if (computerPick.includes(letter) === true) {
+            // } else if (true) {
 
-        //     rawrClip.play();
+            // } else if (computerPick.includes(letter) === true) {
+
+            //     rawrClip.play();
 
         } else {
             rawrClip.play()
         };
-    // get index i of var letter in computerPick
+        // get index i of var letter in computerPick
 
-};
+    };
 
 });
 
