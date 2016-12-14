@@ -9,7 +9,6 @@ $(document).ready(function() {
         // create function countDown to track number of user guesses; starts with a value of 10; each time countDown() is called, 1 is subtracted from the counter.
         // var letter;    
     var guessCounter;
-    // var countDown; 
     var userGuesses;
     var numWins;
     var computerPick;
@@ -23,14 +22,17 @@ $(document).ready(function() {
         computerPick = wordBank[Math.floor(Math.random() * wordBank.length)];
         n = computerPick.length;
         underScores = ("_").repeat(n);
-        console.log("n = " + n)
+        console.log("n = " + n);
+        $("#win-counter").text(numWins);
+        $("#guess-counter").text(guessCounter);
+        $("#letters-guessed").empty();
+        $("#current-word").text(underScores);
     }
 
     function youWin() {
-
         rawrFull.play();
         alert("You won!!! The word was " + computerPick + "!");
-        numWins = numWins += 1;
+        numWins++;
         reset();
     }
 
@@ -46,6 +48,13 @@ $(document).ready(function() {
     // create counter to track user wins
     var numWins = 0
     $("#win-counter").text(numWins)
+
+    // function waitForIt() {
+    //     var windowTimeout = setTimeout(function() {
+    //         youWin();
+    //     }, 300);
+    // }
+
 
     // if var guessNumber = 0, user runs out of guesses and game ends
 
@@ -72,13 +81,8 @@ $(document).ready(function() {
         // if key has been previously selected, inform user that you've picked this letter before, but do not count this from guessNumber
         if (underScores.includes("_") === false) {
             $("#current-word").text(computerPick);
+            // 
             youWin();
-            $("#win-counter").text(numWins);
-            $("#guess-counter").text(guessCounter);
-            $("#letters-guessed").empty();
-            $("#current-word").text(underScores);
-
-
 
         } else if (computerPick.includes(letter) === true) {
             for (var i = 0; i < computerPick.length; i++) {
@@ -88,17 +92,13 @@ $(document).ready(function() {
                 $("#current-word").text(underScores);
                 if (underScores.includes("_") === false) {
                     $("#current-word").text(computerPick);
+                    // waitForIt();
                     youWin();
-                    $("#win-counter").text(numWins);
-                    $("#guess-counter").text(guessCounter);
-                    $("#letters-guessed").empty();
-                    $("#current-word").text(underScores)
                 }
             };
 
-
-
         } else if (userGuesses.includes(letter) === true) {
+            rawrClip.play();
             alert("You've already guessed that!");
 
         } else if (computerPick.includes(letter) === false) {
@@ -107,14 +107,11 @@ $(document).ready(function() {
                 rawrClip.play();
                 alert("You got eaten by a T-Rex! The word was " + computerPick + "!");
                 reset();
-                $("#win-counter").text(numWins);
-                $("#guess-counter").text(guessCounter);
-                $("#letters-guessed").empty();
-                $("#current-word").text(underScores);
+               
             } else {
                 $("#guess-counter").text(guessCounter);
                 userGuesses.push(letter);
-                $("#letters-guessed").text(userGuesses);
+                $("#letters-guessed").text(userGuesses.join(" "));
             }
         } else {
             rawrClip.play()
