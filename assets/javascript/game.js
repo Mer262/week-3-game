@@ -49,11 +49,11 @@ $(document).ready(function() {
     var numWins = 0
     $("#win-counter").text(numWins)
 
-    // function waitForIt() {
-    //     var windowTimeout = setTimeout(function() {
-    //         youWin();
-    //     }, 300);
-    // }
+    function waitForIt() {
+        var windowTimeout = setTimeout(function() {
+            youWin();
+        }, 300);
+    }
 
 
     // if var guessNumber = 0, user runs out of guesses and game ends
@@ -81,8 +81,8 @@ $(document).ready(function() {
         // if key has been previously selected, inform user that you've picked this letter before, but do not count this from guessNumber
         if (underScores.includes("_") === false) {
             $("#current-word").text(computerPick);
-            // 
-            youWin();
+            waitForIt();
+            // youWin();
 
         } else if (computerPick.includes(letter) === true) {
             for (var i = 0; i < computerPick.length; i++) {
@@ -92,8 +92,8 @@ $(document).ready(function() {
                 $("#current-word").text(underScores);
                 if (underScores.includes("_") === false) {
                     $("#current-word").text(computerPick);
-                    // waitForIt();
-                    youWin();
+                    waitForIt();
+                    // youWin();
                 }
             };
 
