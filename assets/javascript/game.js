@@ -14,9 +14,11 @@ $(document).ready(function() {
     var computerPick;
     var n;
     var underScores;
+    var justWon = false;
 
     // call function to reset the game
     function reset() {
+        justWon = false;
         guessCounter = 10;
         userGuesses = []
         computerPick = wordBank[Math.floor(Math.random() * wordBank.length)];
@@ -30,10 +32,13 @@ $(document).ready(function() {
     }
 
     function youWin() {
-        rawrFull.play();
-        alert("You won!!! The word was " + computerPick + "!");
-        numWins++;
-        reset();
+        if (justWon === false) {
+            justWon = true;
+            rawrFull.play();
+            alert("You won!!! The word was " + computerPick + "!");
+            numWins++;
+            reset();
+        }
     }
 
     String.prototype.replaceAt = function(index, character) {
@@ -85,6 +90,7 @@ $(document).ready(function() {
             // youWin();
 
         } else if (computerPick.includes(letter) === true) {
+            var justWon = false;
             for (var i = 0; i < computerPick.length; i++) {
                 if (computerPick[i] === letter) {
                     underScores = underScores.replaceAt(i, letter);
@@ -92,10 +98,15 @@ $(document).ready(function() {
                 $("#current-word").text(underScores);
                 if (underScores.includes("_") === false) {
                     $("#current-word").text(computerPick);
-                    waitForIt();
+                    justWon = true;
+                    //waitForIt();
                     // youWin();
                 }
             };
+
+            if (justWon) {
+                waitForIt();
+            }
 
         } else if (userGuesses.includes(letter) === true) {
             rawrClip.play();
