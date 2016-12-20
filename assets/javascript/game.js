@@ -76,7 +76,7 @@ $(document).ready(function() {
     $("#current-word").text(underScores)
 
     // onkeyup function to caputure the key code/character selected by the user
-    document.onkeyup = function(event) {
+    document.onkeypress = function(event) {
 
         // Captures the key press, converts it to uppercase, and saves it to a variable.
         var letter = String.fromCharCode(event.keyCode).toUpperCase();
@@ -118,7 +118,7 @@ $(document).ready(function() {
                 rawrClip.play();
                 alert("You got eaten by a T-Rex! The word was " + computerPick + "!");
                 reset();
-               
+
             } else {
                 $("#guess-counter").text(guessCounter);
                 userGuesses.push(letter);
